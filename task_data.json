@@ -1,1 +1,16 @@
-{"id": 1, "description": "description of task", "status": "todo", "createdAt": "date", "updatedAt": "date"}
+[
+{
+"id": 1,
+"description": "test 1",
+"status": "todo",
+"created_at": "2025-02-06",
+"updated_at": "2025-02-06"
+},
+{
+"id": 2,
+"description": "test 2",
+"status": "todo",
+"created_at": "2025-02-06",
+"updated_at": "2025-02-06"
+}
+]
