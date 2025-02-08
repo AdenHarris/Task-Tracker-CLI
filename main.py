@@ -1,6 +1,17 @@
 import datetime
 import json
 
+def read_json_to_dict():
+    file = open('task_data.json')
+    data = []
+    data = json.load(file)
+    return data
+
+def write_to_json(data):
+    json_object = json.dumps(data, indent=0)
+    with open('task_data.json', 'w') as outfile:
+        outfile.write(json_object)
+
 class Task:
     def __init__(self,id=1,description=None,status="todo",created_at=str(datetime.date.today()),updated_at=str(datetime.date.today())):
         self.id = id
@@ -10,28 +21,30 @@ class Task:
         self.updated_at = updated_at
 
     def add_task(self):
-        file = open('task_data.json')
-        data = []
-        data = json.load(file)
+        data = read_json_to_dict()
+        self.id = 1
+        for tasks in data:
+            if tasks.get("id") == self.id:
+                self.id += 1
         data.append(self.__dict__)
-
-        json_object = json.dumps(data, indent=0)
-        with open('task_data.json', 'w') as outfile:
-            outfile.write(json_object)
+        write_to_json(data)
     
 def update_task(id,update):
-    file = open('task_data.json')
-    data = []
-    data = json.load(file)
+    data = read_json_to_dict()
     for tasks in data:
         if tasks["id"] == int(id):
             tasks.update({"description":update})
             tasks.update({"updated_at":str(datetime.date.today())})
     print(f"Task {id} updated")
-    json_object = json.dumps(data, indent=0)
-    with open('task_data.json', 'w') as outfile:
-        outfile.write(json_object)
+    write_to_json(data)
 
+def delete_task(id):
+    data = read_json_to_dict()
+    for tasks in data:
+        if tasks["id"] == int(id):
+            data.remove(tasks)
+    print(f"Task {id} Removed")
+    write_to_json(data)
 
 
 def list():
@@ -53,10 +66,6 @@ def load_json_file():
 
 
 
-
-# def delete_task():
-
-
 def main():
     id_counter = load_json_file()
     while True:
@@ -72,6 +81,10 @@ def main():
         
         if "update" in str(user_input):
             update_task(user_input[7],user_input[9:])
+        
+        if "delete" in str(user_input):
+            delete_task(user_input[7])
+            id_counter = load_json_file()
 
 
 if __name__ == "__main__":
