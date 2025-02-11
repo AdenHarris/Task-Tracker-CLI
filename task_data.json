@@ -1,16 +1,23 @@
 [
 {
 "id": 1,
-"description": "go to sleep",
+"description": "wake up",
 "status": "todo",
 "created_at": "2025-02-09",
-"updated_at": "2025-02-09"
+"updated_at": "2025-02-11"
+},
+{
+"id": 3,
+"description": "make lunch",
+"status": "todo",
+"created_at": "2025-02-11",
+"updated_at": "2025-02-11"
 },
 {
 "id": 2,
-"description": "brush teeth",
+"description": "put on pants",
 "status": "todo",
-"created_at": "2025-02-09",
-"updated_at": "2025-02-09"
+"created_at": "2025-02-11",
+"updated_at": "2025-02-11"
 }
 ]

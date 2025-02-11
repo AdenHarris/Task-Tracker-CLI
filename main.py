@@ -48,9 +48,12 @@ def delete_task(id):
 
 
 def list():
-    file = open('task_data.json')
-    data = json.load(file)
-    print(data)
+    data = []
+    data = read_json_to_dict()
+    sorted_tasks = sorted(data, key=lambda x: (x['id']))
+    for tasks in sorted_tasks:
+        print(f"Task {tasks["id"]} '{tasks["description"]}'")
+
 
 #reads json file to determine amount of existing tasks
 def load_json_file():
