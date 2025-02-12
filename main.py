@@ -38,6 +38,24 @@ def update_task(id,update):
     print(f"Task {id} updated")
     write_to_json(data)
 
+def mark_in_progress(id):
+    data = read_json_to_dict()
+    for tasks in data:
+        if tasks["id"] == int(id):
+            tasks.update({"status":"in progress"})
+            tasks.update({"updated_at":str(datetime.date.today())})
+    print(f"Task {id} updated")
+    write_to_json(data)
+
+def mark_done(id):
+    data = read_json_to_dict()
+    for tasks in data:
+        if tasks["id"] == int(id):
+            tasks.update({"status":"done"})
+            tasks.update({"updated_at":str(datetime.date.today())})
+    print(f"Task {id} updated")
+    write_to_json(data)
+
 def delete_task(id):
     data = read_json_to_dict()
     for tasks in data:
@@ -52,7 +70,7 @@ def list():
     data = read_json_to_dict()
     sorted_tasks = sorted(data, key=lambda x: (x['id']))
     for tasks in sorted_tasks:
-        print(f"Task {tasks["id"]} '{tasks["description"]}'")
+        print(f"Task {tasks["id"]} '{tasks["description"]}' {tasks["status"]}")
 
 
 #reads json file to determine amount of existing tasks
@@ -66,7 +84,6 @@ def load_json_file():
         return 1
     else:
         return len(data[0]) + 1
-
 
 
 def main():
@@ -84,6 +101,12 @@ def main():
         
         if "update" in str(user_input):
             update_task(user_input[7],user_input[9:])
+
+        if "mark-in-progress" in str(user_input):
+            mark_in_progress(user_input[17])
+        
+        if "mark-done" in str(user_input):
+            mark_done(user_input[10])        
         
         if "delete" in str(user_input):
             delete_task(user_input[7])
