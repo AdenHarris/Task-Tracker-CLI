@@ -65,12 +65,15 @@ def delete_task(id):
     write_to_json(data)
 
 
-def list():
+def list(status=None):
     data = []
     data = read_json_to_dict()
     sorted_tasks = sorted(data, key=lambda x: (x['id']))
     for tasks in sorted_tasks:
-        print(f"Task {tasks["id"]} '{tasks["description"]}' {tasks["status"]}")
+        if status == None:
+            print(f"Task {tasks["id"]} '{tasks["description"]}'")
+        elif tasks["status"] == status:
+            print(f"Task {tasks["id"]} '{tasks["description"]}' {tasks["status"]}")
 
 
 #reads json file to determine amount of existing tasks
@@ -96,16 +99,23 @@ def main():
             task.add_task()
             print(f"Task added successfully (ID:{task.id})")
             id_counter += 1
-        if user_input == "list":
-            list()
+        if "list" in user_input:
+            if "done" in user_input:
+                list("done")
+            elif "todo" in user_input:
+                list("todo")
+            elif "in progress" in user_input:
+                list("in progress")
+            else:
+                list()
         
         if "update" in str(user_input):
             update_task(user_input[7],user_input[9:])
 
-        if "mark-in-progress" in str(user_input):
+        if "mark in progress" in str(user_input):
             mark_in_progress(user_input[17])
         
-        if "mark-done" in str(user_input):
+        if "mark done" in str(user_input):
             mark_done(user_input[10])        
         
         if "delete" in str(user_input):
