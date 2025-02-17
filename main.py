@@ -71,7 +71,7 @@ def list(status=None):
     sorted_tasks = sorted(data, key=lambda x: (x['id']))
     for tasks in sorted_tasks:
         if status == None:
-            print(f"Task {tasks["id"]} '{tasks["description"]}'")
+            print(f"Task {tasks["id"]} '{tasks["description"]}'{tasks["status"]}")
         elif tasks["status"] == status:
             print(f"Task {tasks["id"]} '{tasks["description"]}' {tasks["status"]}")
 
@@ -81,13 +81,19 @@ def load_json_file():
     file = open('task_data.json')
     data = []
     data.append(json.load(file))
-    print(len(data[0]))
 
     if len(data[0]) == 0:
         return 1
     else:
         return len(data[0]) + 1
 
+def list_commands():
+    print("list 'status': shows all tasks. optional filter on task status")
+    print("add 'task description' : adds a new task")
+    print("update 'ID' 'new task' : updates existing task")
+    print("delete 'ID' : removes task")
+    print("mark in progress 'ID' : sets task status to in progress")
+    print("mark done 'ID' : sets task status to done")
 
 def main():
     id_counter = load_json_file()
@@ -122,6 +128,8 @@ def main():
             delete_task(user_input[7])
             id_counter = load_json_file()
 
+        if "help" in str(user_input):
+            list_commands()
 
 if __name__ == "__main__":
      main()

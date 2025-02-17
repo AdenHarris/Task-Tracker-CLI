@@ -16,15 +16,15 @@
 {
 "id": 3,
 "description": "make lunch",
-"status": "in progress",
+"status": "done",
 "created_at": "2025-02-13",
-"updated_at": "2025-02-13"
+"updated_at": "2025-02-17"
 },
 {
 "id": 4,
-"description": "pack bag for trip",
-"status": "done",
-"created_at": "2025-02-13",
-"updated_at": "2025-02-13"
+"description": "eat dinner",
+"status": "in progress",
+"created_at": "2025-02-17",
+"updated_at": "2025-02-17"
 }
 ]
