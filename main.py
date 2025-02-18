@@ -71,7 +71,7 @@ def list(status=None):
     sorted_tasks = sorted(data, key=lambda x: (x['id']))
     for tasks in sorted_tasks:
         if status == None:
-            print(f"Task {tasks["id"]} '{tasks["description"]}'{tasks["status"]}")
+            print(f"Task {tasks["id"]} '{tasks["description"]}' {tasks["status"]}")
         elif tasks["status"] == status:
             print(f"Task {tasks["id"]} '{tasks["description"]}' {tasks["status"]}")
 
@@ -99,36 +99,35 @@ def main():
     id_counter = load_json_file()
     while True:
         user_input = input("#")
-        if "add" in str(user_input):
+        if user_input[:3] == "add":
             task = Task(id=id_counter, description=user_input[4:])
-            #test_task = Task(1,"test","todo","today","today")
             task.add_task()
             print(f"Task added successfully (ID:{task.id})")
             id_counter += 1
-        if "list" in user_input:
-            if "done" in user_input:
+        if user_input[:4] == "list":
+            if user_input[4:9] == " done":
                 list("done")
-            elif "todo" in user_input:
+            elif user_input[4:9] == " todo":
                 list("todo")
-            elif "in progress" in user_input:
+            elif user_input[4:16] == " in progress":
                 list("in progress")
             else:
                 list()
         
-        if "update" in str(user_input):
+        if user_input[:6] == "update":
             update_task(user_input[7],user_input[9:])
 
-        if "mark in progress" in str(user_input):
+        if user_input[:16] == "mark in progress":
             mark_in_progress(user_input[17])
         
-        if "mark done" in str(user_input):
-            mark_done(user_input[10])        
+        if user_input[:9] == "mark done":
+            mark_done(user_input[10])       
         
-        if "delete" in str(user_input):
+        if user_input[:6] == "delete":
             delete_task(user_input[7])
             id_counter = load_json_file()
 
-        if "help" in str(user_input):
+        if user_input[:4] == "help":
             list_commands()
 
 if __name__ == "__main__":
