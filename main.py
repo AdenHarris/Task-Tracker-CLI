@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 
 def read_json_to_dict():
     file = open('task_data.json')
@@ -35,7 +36,7 @@ def update_task(id,update):
         if tasks["id"] == int(id):
             tasks.update({"description":update})
             tasks.update({"updated_at":str(datetime.date.today())})
-    print(f"Task {id} updated")
+            print(f"Task {id} updated")
     write_to_json(data)
 
 def mark_in_progress(id):
@@ -44,7 +45,7 @@ def mark_in_progress(id):
         if tasks["id"] == int(id):
             tasks.update({"status":"in progress"})
             tasks.update({"updated_at":str(datetime.date.today())})
-    print(f"Task {id} updated")
+            print(f"Task {id} updated")
     write_to_json(data)
 
 def mark_done(id):
@@ -53,7 +54,7 @@ def mark_done(id):
         if tasks["id"] == int(id):
             tasks.update({"status":"done"})
             tasks.update({"updated_at":str(datetime.date.today())})
-    print(f"Task {id} updated")
+            print(f"Task {id} updated")
     write_to_json(data)
 
 def delete_task(id):
@@ -61,7 +62,7 @@ def delete_task(id):
     for tasks in data:
         if tasks["id"] == int(id):
             data.remove(tasks)
-    print(f"Task {id} Removed")
+            print(f"Task {id} Removed")
     write_to_json(data)
 
 
@@ -78,9 +79,14 @@ def list(status=None):
 
 #reads json file to determine amount of existing tasks
 def load_json_file():
-    file = open('task_data.json')
-    data = []
-    data.append(json.load(file))
+    if not os.path.exists('task_data.json'):
+        new_file = open('task_data.json', "x")
+        write_to_json([])
+        return 1
+    else:
+        file = open('task_data.json')
+        data = []
+        data.append(json.load(file))
 
     if len(data[0]) == 0:
         return 1
@@ -97,6 +103,9 @@ def list_commands():
 
 def main():
     id_counter = load_json_file()
+    print("######Task-Tracker-CLI######")
+    print("# Welcome!")
+    print("#(type 'help' for commands)")
     while True:
         user_input = input("#")
         if user_input[:3] == "add":

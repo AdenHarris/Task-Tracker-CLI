@@ -1,30 +1,23 @@
 [
 {
 "id": 1,
-"description": "go to bed",
-"status": "todo",
-"created_at": "2025-02-09",
-"updated_at": "2025-02-18"
+"description": "eat lunch",
+"status": "in progress",
+"created_at": "2025-02-19",
+"updated_at": "2025-02-19"
 },
 {
 "id": 2,
-"description": "put on pants",
+"description": "delete json file",
 "status": "done",
-"created_at": "2025-02-11",
-"updated_at": "2025-02-18"
+"created_at": "2025-02-19",
+"updated_at": "2025-02-19"
 },
 {
 "id": 3,
-"description": "make lunch",
-"status": "done",
-"created_at": "2025-02-13",
-"updated_at": "2025-02-17"
-},
-{
-"id": 4,
-"description": "play dota",
-"status": "todo",
-"created_at": "2025-02-18",
-"updated_at": "2025-02-18"
+"description": "write readme",
+"status": "in progress",
+"created_at": "2025-02-19",
+"updated_at": "2025-02-19"
 }
 ]
