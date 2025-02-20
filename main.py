@@ -124,16 +124,28 @@ def main():
                 list()
         
         if user_input[:6] == "update":
-            update_task(user_input[7],user_input[9:])
+            try:
+                update_task(user_input[7],user_input[9:])
+            except:
+                print("Error: no task number detected")
 
         if user_input[:16] == "mark in progress":
-            mark_in_progress(user_input[17])
-        
+            try:
+                mark_in_progress(user_input[17])
+            except:
+                print("Error: no task number detected")
+                
         if user_input[:9] == "mark done":
-            mark_done(user_input[10])       
-        
+            try:
+                mark_done(user_input[10])       
+            except:
+                print("Error: no task number detected")
+
         if user_input[:6] == "delete":
-            delete_task(user_input[7])
+            try:
+                delete_task(user_input[7])
+            except:
+                print("Error: no task number detected")
             id_counter = load_json_file()
 
         if user_input[:4] == "help":
