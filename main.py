@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+import traceback
 
 def read_json_to_dict():
     file = open('task_data.json')
@@ -29,32 +30,24 @@ class Task:
                 self.id += 1
         data.append(self.__dict__)
         write_to_json(data)
+        print(f"Task added successfully (ID:{self.id})")
     
-def update_task(id,update):
+def update_task(id,update,status):
     data = read_json_to_dict()
     for tasks in data:
         if tasks["id"] == int(id):
-            tasks.update({"description":update})
             tasks.update({"updated_at":str(datetime.date.today())})
-            print(f"Task {id} updated")
-    write_to_json(data)
 
-def mark_in_progress(id):
-    data = read_json_to_dict()
-    for tasks in data:
-        if tasks["id"] == int(id):
-            tasks.update({"status":"in progress"})
-            tasks.update({"updated_at":str(datetime.date.today())})
-            print(f"Task {id} updated")
-    write_to_json(data)
+            if status == "in progress":
+                tasks.update({"status":"in progress"})
 
-def mark_done(id):
-    data = read_json_to_dict()
-    for tasks in data:
-        if tasks["id"] == int(id):
-            tasks.update({"status":"done"})
-            tasks.update({"updated_at":str(datetime.date.today())})
+            elif status == "done":
+                tasks.update({"status":"done"})
+
+            else:
+                tasks.update({"description":update})
             print(f"Task {id} updated")
+
     write_to_json(data)
 
 def delete_task(id):
@@ -64,7 +57,6 @@ def delete_task(id):
             data.remove(tasks)
             print(f"Task {id} Removed")
     write_to_json(data)
-
 
 def list(status=None):
     data = []
@@ -101,55 +93,51 @@ def list_commands():
     print("mark in progress 'ID' : sets task status to in progress")
     print("mark done 'ID' : sets task status to done")
 
-def main():
+def user_input_loop():
     id_counter = load_json_file()
+    while True:
+            user_input = input("#")
+            try:
+
+                if user_input[:3] == "add":
+                    task = Task(id=id_counter, description=user_input[4:])
+                    task.add_task()
+                    id_counter += 1
+
+                if user_input[:4] == "list":
+                    if user_input[4:9] == " done":
+                        list("done")
+                    elif user_input[4:9] == " todo":
+                        list("todo")
+                    elif user_input[4:16] == " in progress":
+                        list("in progress")
+                    else:
+                        list()
+                
+                if user_input[:6] == "update":
+                        update_task(user_input[7],user_input[9:])
+
+                if user_input[:16] == "mark in progress":
+                        update_task(user_input[17],None, "in progress")
+                        
+                if user_input[:9] == "mark done":
+                        update_task(user_input[10],None,"done")   
+
+                if user_input[:6] == "delete":
+                        delete_task(user_input[7])
+                        id_counter = load_json_file()
+
+                if user_input[:4] == "help":
+                    list_commands()
+            except:
+                traceback.print_exc()
+                print("Input Error: Please check you are using correct syntax.")
+            
+def main():
     print("######Task-Tracker-CLI######")
     print("# Welcome!")
     print("#(type 'help' for commands)")
-    while True:
-        user_input = input("#")
-        if user_input[:3] == "add":
-            task = Task(id=id_counter, description=user_input[4:])
-            task.add_task()
-            print(f"Task added successfully (ID:{task.id})")
-            id_counter += 1
-        if user_input[:4] == "list":
-            if user_input[4:9] == " done":
-                list("done")
-            elif user_input[4:9] == " todo":
-                list("todo")
-            elif user_input[4:16] == " in progress":
-                list("in progress")
-            else:
-                list()
-        
-        if user_input[:6] == "update":
-            try:
-                update_task(user_input[7],user_input[9:])
-            except:
-                print("Error: no task number detected")
-
-        if user_input[:16] == "mark in progress":
-            try:
-                mark_in_progress(user_input[17])
-            except:
-                print("Error: no task number detected")
-                
-        if user_input[:9] == "mark done":
-            try:
-                mark_done(user_input[10])       
-            except:
-                print("Error: no task number detected")
-
-        if user_input[:6] == "delete":
-            try:
-                delete_task(user_input[7])
-            except:
-                print("Error: no task number detected")
-            id_counter = load_json_file()
-
-        if user_input[:4] == "help":
-            list_commands()
+    user_input_loop()
 
 if __name__ == "__main__":
      main()
